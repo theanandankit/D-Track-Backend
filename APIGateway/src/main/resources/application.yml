@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: API-GATEWAY
+
+  cloud:
+    gateway:
+      routes:
+        - id : FORM-SERVICE
+          uri : lb://FORM-LOAD-BALANCE-SERVICE
+          predicates:
+            - Path=/user**
+
+        - id : Database-export-service
+          uri : lb://DATABASE-EXPORT-SERVICE
+          predicates:
+            - Path=/download/**
