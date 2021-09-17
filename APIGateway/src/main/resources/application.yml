@@ -8,7 +8,7 @@ spring:
         - id : FORM-SERVICE
           uri : lb://FORM-LOAD-BALANCE-SERVICE
           predicates:
-            - Path=/user**
+            - Path=/user**, /form**, /response**, /question**, /answer**
 
         - id : Database-export-service
           uri : lb://DATABASE-EXPORT-SERVICE

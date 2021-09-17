@@ -4,6 +4,8 @@ import com.atlan.formService.Controller.UserController;
 import com.atlan.formService.Models.User;
 import com.atlan.formService.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,26 +18,26 @@ public class UserControllerImpl implements UserController {
 
     @Override
     @GetMapping("/user/{id}")
-    public User getUserById(@PathVariable(name = "id") Integer id) {
+    public ResponseEntity<User> getUserById(@PathVariable(name = "id") Integer id) {
 
         User user = userService.getById(id);
 
         if (user != null) {
-            return user;
+            return ResponseEntity.ok().body(user);
         }
 
-        return null;
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     @Override
     @GetMapping("/users")
-    public List<User> getAllUser() {
-        return userService.getAll();
+    public ResponseEntity<List<User>> getAllUser() {
+        return ResponseEntity.ok().body(userService.getAll());
     }
 
     @Override
     @PostMapping("/user")
-    public User addUser(@RequestBody User user) {
-        return userService.add(user);
+    public ResponseEntity<User> addUser(@RequestBody User user) {
+        return ResponseEntity.ok().body(userService.add(user));
     }
 }

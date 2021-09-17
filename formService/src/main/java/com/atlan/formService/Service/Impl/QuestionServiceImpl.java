@@ -16,7 +16,8 @@ public class QuestionServiceImpl implements QuestionService {
     private QuestionDao dao;
 
     @Override
-    public List<Question> getByForm(Form form) {
+    public List<Question> getByForm(Integer id) {
+        // NTI
         return null;
     }
 

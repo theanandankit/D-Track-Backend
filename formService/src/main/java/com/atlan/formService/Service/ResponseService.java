@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ResponseService {
 
-    List<Response> getByQuestion(Question question);
+    List<Response> getByQuestion(Integer id);
 
     Response add(Response response);
 }

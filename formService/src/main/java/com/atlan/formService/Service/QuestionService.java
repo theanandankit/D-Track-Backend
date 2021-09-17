@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface QuestionService {
 
-    List<Question> getByForm(Form form);
+    List<Question> getByForm(Integer id);
 
     Question add(Question question);
 }
