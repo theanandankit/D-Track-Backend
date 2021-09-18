@@ -1,15 +1,17 @@
 package com.atlan.formService.Service;
 
+import com.atlan.formService.Models.DTO.FormDTO.FormDTORequest;
+import com.atlan.formService.Models.DTO.FormDTO.FormDTOResponse;
 import com.atlan.formService.Models.Form;
 
 import java.util.List;
 
 public interface FormService {
 
-    List<Form> getAll();
+    List<FormDTOResponse> getAll();
 
-    Form get(Integer id);
+    FormDTOResponse get(Integer id);
 
-    Form add(Form form);
+    FormDTOResponse add(FormDTORequest formDTORequest);
 
 }

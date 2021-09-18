@@ -21,10 +21,7 @@ public class Question {
 
     private String created;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Answer answer;
+    private String answer;
 
-    @ManyToOne
-    @JoinColumn(name = "form_id")
-    private Form form;
+    private Integer Form_id;
 }

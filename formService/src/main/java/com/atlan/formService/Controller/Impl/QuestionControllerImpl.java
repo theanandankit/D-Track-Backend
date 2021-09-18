@@ -1,8 +1,8 @@
 package com.atlan.formService.Controller.Impl;
 
 import com.atlan.formService.Controller.QuestionController;
-import com.atlan.formService.Models.Answer;
-import com.atlan.formService.Models.Form;
+import com.atlan.formService.Models.DTO.QuestionDTO.QuestionDTORequest;
+import com.atlan.formService.Models.DTO.QuestionDTO.QuestionDTOResponse;
 import com.atlan.formService.Models.Question;
 import com.atlan.formService.Service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +20,8 @@ public class QuestionControllerImpl implements QuestionController {
 
     @Override
     @GetMapping("/question")
-    public ResponseEntity<List<Question>> getQuestionByForm(@RequestParam("form") Integer id) {
-        List<Question> result = service.getByForm(id);
+    public ResponseEntity<List<QuestionDTOResponse>> getQuestionByForm(@RequestParam("form") Integer id) {
+        List<QuestionDTOResponse> result = service.getByForm(id);
 
         if (result == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -32,9 +32,9 @@ public class QuestionControllerImpl implements QuestionController {
 
     @Override
     @PostMapping("/question")
-    public ResponseEntity<Question> add(@RequestBody Question question) {
+    public ResponseEntity<QuestionDTOResponse> add(@RequestBody QuestionDTORequest question) {
 
-        Question result = service.add(question);
+        QuestionDTOResponse result = service.add(question);
 
         if (result == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

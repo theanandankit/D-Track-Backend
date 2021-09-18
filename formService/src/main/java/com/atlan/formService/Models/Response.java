@@ -21,10 +21,6 @@ public class Response {
 
     private String created;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private User user;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private Question question;
+    private Integer question;
 
 }

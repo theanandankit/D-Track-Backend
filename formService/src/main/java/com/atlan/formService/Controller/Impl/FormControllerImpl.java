@@ -1,8 +1,9 @@
 package com.atlan.formService.Controller.Impl;
 
 import com.atlan.formService.Controller.FormController;
-import com.atlan.formService.Models.Form;
-import com.atlan.formService.Service.FormService;
+import com.atlan.formService.Models.DTO.FormDTO.FormDTORequest;
+import com.atlan.formService.Models.DTO.FormDTO.FormDTOResponse;
+import com.atlan.formService.Service.Impl.FormServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,19 +15,20 @@ import java.util.List;
 public class FormControllerImpl implements FormController {
 
     @Autowired
-    private FormService service;
+    private FormServiceImpl service;
 
     @Override
     @GetMapping("/forms")
-    public ResponseEntity<List<Form>> getAll() {
+    public ResponseEntity<List<FormDTOResponse>> getAll() {
         return ResponseEntity.ok().body(service.getAll());
     }
 
     @Override
     @GetMapping("/form/{id}")
-    public ResponseEntity<Form> getById(@RequestParam("id") Integer id) {
+    public ResponseEntity<FormDTOResponse> getById(@PathVariable("id") Integer id) {
 
-        Form result = service.get(id);
+        System.out.println(id);
+        FormDTOResponse result = service.get(id);
 
         if (result == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -36,11 +38,11 @@ public class FormControllerImpl implements FormController {
     }
 
     @Override
-    @PostMapping("/form")
-    public ResponseEntity<Form> add(@RequestBody Form form) {
-        Form result = service.add(form);
+    @PostMapping(value = "/form")
+    public ResponseEntity<FormDTOResponse> add(@RequestBody FormDTORequest formDTORequest) {
+        FormDTOResponse result = service.add(formDTORequest);
 
-        if (form == null) {
+        if (result == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
