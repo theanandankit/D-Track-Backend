@@ -6,6 +6,7 @@ import com.atlan.FormLoadBalanceService.Models.DTO.QuestionDTO.QuestionDTORespon
 import com.atlan.FormLoadBalanceService.Utils.Values;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -22,11 +23,13 @@ public class QuestionControllerImpl implements QuestionController {
     @Override
     @GetMapping("/question")
     public List<QuestionDTOResponse> getRedirectToByForm(HttpServletRequest request) {
-        QuestionDTOResponse[] questions = restTemplate.getForObject(Values.FORM_URL + request.getRequestURI(), QuestionDTOResponse[].class);
+        String formId = request.getParameter("form");
+        QuestionDTOResponse[] questions = restTemplate.getForObject(Values.FORM_URL + request.getRequestURI() + "?form=" + formId, QuestionDTOResponse[].class);
         return Arrays.asList(questions);
     }
 
     @Override
+    @PostMapping("/question")
     public QuestionDTOResponse postRedirect(HttpServletRequest request, QuestionDTORequest question) {
         return restTemplate.postForObject(Values.FORM_URL + request.getRequestURI(), question, QuestionDTOResponse.class);
     }

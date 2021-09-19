@@ -3,7 +3,6 @@ package com.atlan.formService.Controller.Impl;
 import com.atlan.formService.Controller.QuestionController;
 import com.atlan.formService.Models.DTO.QuestionDTO.QuestionDTORequest;
 import com.atlan.formService.Models.DTO.QuestionDTO.QuestionDTOResponse;
-import com.atlan.formService.Models.Question;
 import com.atlan.formService.Service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,6 +32,8 @@ public class QuestionControllerImpl implements QuestionController {
     @Override
     @PostMapping("/question")
     public ResponseEntity<QuestionDTOResponse> add(@RequestBody QuestionDTORequest question) {
+
+        System.out.println(question.getAnswer());
 
         QuestionDTOResponse result = service.add(question);
 

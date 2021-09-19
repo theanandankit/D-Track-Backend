@@ -2,7 +2,10 @@ package com.atlan.DatabaseExportService.Models;
 
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Data
 @Getter
@@ -21,10 +24,6 @@ public class Response {
 
     private String created;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private User user;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private Question question;
+    private Integer question;
 
 }

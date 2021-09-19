@@ -8,6 +8,7 @@ import com.atlan.formService.Service.ResponseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -15,11 +16,14 @@ import java.util.List;
 public class ResponseServiceImpl implements ResponseService {
 
     @Autowired
-    private ResponseRepository dao;
+    private ResponseRepository responseRepository;
 
     @Override
     public List<ResponseDTOResponse> getByQuestion(Integer id) {
-        return null;
+        List<ResponseDTOResponse> result = new ArrayList<>();
+
+        responseRepository.getAllByQuestion(id).forEach(response -> result.add(getResponseDTO(response)));
+        return result;
     }
 
     @Override
@@ -31,16 +35,20 @@ public class ResponseServiceImpl implements ResponseService {
         response.setValue(responseDTORequest.getValue());
 
         try {
-            response = dao.save(response);
-            ResponseDTOResponse result = new ResponseDTOResponse();
-            result.setCreated(result.getCreated());
-            result.setId(response.getId());
-            result.setQuestion(response.getQuestion());
-            result.setValue(response.getValue());
-
-            return result;
+            response = responseRepository.save(response);
+            return getResponseDTO(response);
         } catch (Exception e) {
             return null;
         }
+    }
+
+    private ResponseDTOResponse getResponseDTO(Response response) {
+        ResponseDTOResponse result = new ResponseDTOResponse();
+        result.setCreated(response.getCreated());
+        result.setId(response.getId());
+        result.setQuestion(response.getQuestion());
+        result.setValue(response.getValue());
+
+        return result;
     }
 }

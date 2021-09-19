@@ -31,14 +31,7 @@ public class FormServiceImpl implements FormService {
 
         List<FormDTOResponse> result = new ArrayList<>();
 
-        formRepository.findAll().forEach(form -> {
-            FormDTOResponse response = new FormDTOResponse();
-            response.setId(form.getId());
-            response.setCreated(form.getCreated());
-            response.setQuestionList(questionService.getByForm(form.getId()));
-            response.setTitle(form.getTitle());
-        });
-
+        formRepository.findAll().forEach(form -> result.add(getFormDTOResponse(form)));
         return result;
     }
 
@@ -46,13 +39,8 @@ public class FormServiceImpl implements FormService {
     public FormDTOResponse get(Integer id) {
         try {
             Form form = formRepository.getById(id);
-            FormDTOResponse response = new FormDTOResponse();
-            response.setTitle(form.getTitle());
-            response.setId(form.getId());
-            response.setCreated(form.getCreated());
-            response.setQuestionList(questionService.getByForm(form.getId()));
 
-            return response;
+            return getFormDTOResponse(form);
         } catch (Exception e) {
             logger.info("Form not found");
              return null;
@@ -66,13 +54,19 @@ public class FormServiceImpl implements FormService {
         form.setCreated(new Date().toString());
         try{
             form = formRepository.save(form);
-            FormDTOResponse response = new FormDTOResponse();
-            response.setId(form.getId());
-            response.setCreated(form.getCreated());
-            response.setTitle(form.getTitle());
-            return response;
+            return getFormDTOResponse(form);
         } catch (Exception e) {
             return null;
         }
+    }
+
+    private FormDTOResponse getFormDTOResponse (Form form) {
+        FormDTOResponse response = new FormDTOResponse();
+        response.setId(form.getId());
+        response.setCreated(form.getCreated());
+        response.setTitle(form.getTitle());
+        response.setQuestionList(questionService.getByForm(form.getId()));
+
+        return response;
     }
 }

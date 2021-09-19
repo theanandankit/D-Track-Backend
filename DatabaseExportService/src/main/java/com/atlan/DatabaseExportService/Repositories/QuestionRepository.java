@@ -1,6 +1,6 @@
-package com.atlan.formService.Repositories;
+package com.atlan.DatabaseExportService.Repositories;
 
-import com.atlan.formService.Models.Question;
+import com.atlan.DatabaseExportService.Models.Question;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

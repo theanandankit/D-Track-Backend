@@ -23,5 +23,5 @@ public class Question {
 
     private String answer;
 
-    private Integer Form_id;
+    private Integer form;
 }

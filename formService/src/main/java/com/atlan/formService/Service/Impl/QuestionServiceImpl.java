@@ -9,6 +9,7 @@ import com.atlan.formService.Service.ResponseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -29,20 +30,23 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public List<QuestionDTOResponse> getByForm(Integer id) {
-        // NTI
-        return null;
+        List<QuestionDTOResponse> result = new ArrayList<>();
+
+        questionRepository.getAllByForm(id).forEach(response -> result.add(getQuestionDTOResponse(response)));
+        return result;
     }
 
     @Override
     public QuestionDTOResponse add(QuestionDTORequest questionDTORequest) {
         Question question = new Question();
         question.setAnswer(questionDTORequest.getAnswer());
-        question.setForm_id(questionDTORequest.getForm());
+        question.setForm(questionDTORequest.getForm());
         question.setValue(questionDTORequest.getValue());
         question.setCreated(new Date().toString());
 
         try {
             question = questionRepository.save(question);
+            System.out.println(question.getAnswer());
             return getQuestionDTOResponse(question);
         } catch (Exception e) {
             return null;
@@ -53,7 +57,7 @@ public class QuestionServiceImpl implements QuestionService {
         QuestionDTOResponse response = new QuestionDTOResponse();
         response.setId(question.getId());
         response.setAnswer(question.getAnswer());
-        response.setForm(question.getForm_id());
+        response.setForm(question.getForm());
         response.setResponseList(responseService.getByQuestion(question.getId()));
         response.setValue(question.getValue());
 
