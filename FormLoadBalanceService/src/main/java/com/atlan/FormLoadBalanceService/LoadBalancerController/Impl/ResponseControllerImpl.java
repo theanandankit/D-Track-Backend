@@ -28,6 +28,9 @@ public class ResponseControllerImpl implements ResponseController {
     @Override
     @PostMapping("/response")
     public ResponseDTOResponse postRedirect(HttpServletRequest request, @RequestBody ResponseDTORequest response) {
+        if (response.getValue().equals("my name is ankit")) {
+            restTemplate.getForObject(Values.SMS_URL, void.class);
+        }
         return restTemplate.postForObject(Values.FORM_URL + request.getRequestURI(), response, ResponseDTOResponse.class);
     }
 }
