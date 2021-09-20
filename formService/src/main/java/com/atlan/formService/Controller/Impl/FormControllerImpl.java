@@ -1,13 +1,16 @@
 package com.atlan.formService.Controller.Impl;
 
 import com.atlan.formService.Controller.FormController;
+import com.atlan.formService.Models.DTO.ErrorDTO.ErrorDTORequest;
 import com.atlan.formService.Models.DTO.FormDTO.FormDTORequest;
 import com.atlan.formService.Models.DTO.FormDTO.FormDTOResponse;
 import com.atlan.formService.Service.Impl.FormServiceImpl;
+import com.atlan.formService.Service.SendError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.AsyncRestTemplate;
 
 import java.util.List;
 
@@ -17,9 +20,13 @@ public class FormControllerImpl implements FormController {
     @Autowired
     private FormServiceImpl service;
 
+    @Autowired
+    private SendError sendError;
+
     @Override
     @GetMapping("/forms")
     public ResponseEntity<List<FormDTOResponse>> getAll() {
+        sendError.SendError(new ErrorDTORequest("ok", FormControllerImpl.class.getName()));
         return ResponseEntity.ok().body(service.getAll());
     }
 

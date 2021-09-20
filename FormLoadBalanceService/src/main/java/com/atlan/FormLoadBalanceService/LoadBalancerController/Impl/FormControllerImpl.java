@@ -24,7 +24,20 @@ public class FormControllerImpl implements FormController {
     @Override
     @GetMapping("/forms")
     public List<FormDTOResponse> getRedirect(HttpServletRequest request) {
-        FormDTOResponse[] forms =  restTemplate.getForObject(Values.FORM_URL + request.getRequestURI(), FormDTOResponse[].class);
+
+        FormDTOResponse[] forms = null;
+
+        new Thread(new Runnable() {
+            FormDTOResponse[] form;
+            {
+                this.form= forms;
+            }
+            @Override
+            public void run() {
+                form =  restTemplate.getForObject(Values.FORM_URL + request.getRequestURI(), FormDTOResponse[].class);
+            }
+        }).start();
+
         return Arrays.asList(forms);
     }
 
