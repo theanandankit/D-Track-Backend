@@ -1,10 +1,12 @@
 package com.atlan.formService.Service.Impl;
 
+import com.atlan.formService.Models.DTO.ErrorDTO.ErrorDTORequest;
 import com.atlan.formService.Models.DTO.ResponseDTO.ResponseDTORequest;
 import com.atlan.formService.Models.DTO.ResponseDTO.ResponseDTOResponse;
 import com.atlan.formService.Repositories.ResponseRepository;
 import com.atlan.formService.Models.Response;
 import com.atlan.formService.Service.ResponseService;
+import com.atlan.formService.Service.SendError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +18,20 @@ import java.util.List;
 public class ResponseServiceImpl implements ResponseService {
 
     @Autowired
+    private SendError error;
+
+    @Autowired
     private ResponseRepository responseRepository;
 
     @Override
     public List<ResponseDTOResponse> getByQuestion(Integer id) {
         List<ResponseDTOResponse> result = new ArrayList<>();
-
-        responseRepository.getAllByQuestion(id).forEach(response -> result.add(getResponseDTO(response)));
+        try {
+            responseRepository.getAllByQuestion(id).forEach(response -> result.add(getResponseDTO(response)));
+        } catch (Exception e) {
+            error.SendError(new ErrorDTORequest(e.getMessage(), ResponseServiceImpl.class.getName()));
+            return null;
+        }
         return result;
     }
 
@@ -38,6 +47,7 @@ public class ResponseServiceImpl implements ResponseService {
             response = responseRepository.save(response);
             return getResponseDTO(response);
         } catch (Exception e) {
+            error.SendError(new ErrorDTORequest(e.getMessage(), ResponseServiceImpl.class.getName()));
             return null;
         }
     }

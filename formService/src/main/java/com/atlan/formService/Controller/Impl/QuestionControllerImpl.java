@@ -33,8 +33,6 @@ public class QuestionControllerImpl implements QuestionController {
     @PostMapping("/question")
     public ResponseEntity<QuestionDTOResponse> add(@RequestBody QuestionDTORequest question) {
 
-        System.out.println(question.getAnswer());
-
         QuestionDTOResponse result = service.add(question);
 
         if (result == null) {

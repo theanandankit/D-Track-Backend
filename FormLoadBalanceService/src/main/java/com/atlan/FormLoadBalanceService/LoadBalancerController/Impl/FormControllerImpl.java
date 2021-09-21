@@ -5,6 +5,8 @@ import com.atlan.FormLoadBalanceService.Models.DTO.FormDTO.FormDTORequest;
 import com.atlan.FormLoadBalanceService.Models.DTO.FormDTO.FormDTOResponse;
 import com.atlan.FormLoadBalanceService.Utils.Values;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,34 +25,32 @@ public class FormControllerImpl implements FormController {
 
     @Override
     @GetMapping("/forms")
-    public List<FormDTOResponse> getRedirect(HttpServletRequest request) {
-
-        FormDTOResponse[] forms = null;
-
-        new Thread(new Runnable() {
-            FormDTOResponse[] form;
-            {
-                this.form= forms;
-            }
-            @Override
-            public void run() {
-                form =  restTemplate.getForObject(Values.FORM_URL + request.getRequestURI(), FormDTOResponse[].class);
-            }
-        }).start();
-
-        return Arrays.asList(forms);
+    public ResponseEntity<List<FormDTOResponse>> getRedirect(HttpServletRequest request) {
+        try {
+            FormDTOResponse[] forms = restTemplate.getForObject(Values.FORM_URL + request.getRequestURI(), FormDTOResponse[].class);
+            return ResponseEntity.ok().body(Arrays.asList(forms));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
     @Override
     @GetMapping("/form/{id}")
-    public FormDTOResponse getRedirectToById(HttpServletRequest request) {
-        System.out.println(request.getRequestURI());
-        return restTemplate.getForObject(Values.FORM_URL + request.getRequestURI(), FormDTOResponse.class);
+    public ResponseEntity<FormDTOResponse> getRedirectToById(HttpServletRequest request) {
+        try {
+            return ResponseEntity.ok().body(restTemplate.getForObject(Values.FORM_URL + request.getRequestURI(), FormDTOResponse.class));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
     @Override
     @PostMapping("/form")
-    public FormDTOResponse postRedirect(@RequestBody FormDTORequest form, HttpServletRequest request) {
-        return restTemplate.postForObject(Values.FORM_URL + request.getRequestURI(), form, FormDTOResponse.class);
+    public ResponseEntity<FormDTOResponse> postRedirect(@RequestBody FormDTORequest form, HttpServletRequest request) {
+        try {
+            return ResponseEntity.ok().body(restTemplate.postForObject(Values.FORM_URL + request.getRequestURI(), form, FormDTOResponse.class));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 }

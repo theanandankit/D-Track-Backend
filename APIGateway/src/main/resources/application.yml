@@ -14,3 +14,8 @@ spring:
           uri : lb://DATABASE-EXPORT-SERVICE
           predicates:
             - Path=/download/**
+
+        - id : ERROR-DATA-SERVICE
+          uri : lb://ERROR-DATA-SERVICE
+          predicates:
+            - Path=/getError**

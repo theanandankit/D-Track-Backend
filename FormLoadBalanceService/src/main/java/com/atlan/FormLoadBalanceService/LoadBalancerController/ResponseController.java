@@ -2,12 +2,13 @@ package com.atlan.FormLoadBalanceService.LoadBalancerController;
 
 import com.atlan.FormLoadBalanceService.Models.DTO.ResponseDTO.ResponseDTORequest;
 import com.atlan.FormLoadBalanceService.Models.DTO.ResponseDTO.ResponseDTOResponse;
+import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletRequest;
 
 public interface ResponseController {
 
-    ResponseDTOResponse getRedirectToByQuestion(HttpServletRequest request);
+    ResponseEntity<ResponseDTOResponse> getRedirectToByQuestion(HttpServletRequest request);
 
-    ResponseDTOResponse postRedirect(HttpServletRequest request, ResponseDTORequest response);
+    ResponseEntity<ResponseDTOResponse> postRedirect(HttpServletRequest request, ResponseDTORequest response);
 }

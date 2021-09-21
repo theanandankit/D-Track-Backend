@@ -26,7 +26,6 @@ public class FormControllerImpl implements FormController {
     @Override
     @GetMapping("/forms")
     public ResponseEntity<List<FormDTOResponse>> getAll() {
-        sendError.SendError(new ErrorDTORequest("ok", FormControllerImpl.class.getName()));
         return ResponseEntity.ok().body(service.getAll());
     }
 

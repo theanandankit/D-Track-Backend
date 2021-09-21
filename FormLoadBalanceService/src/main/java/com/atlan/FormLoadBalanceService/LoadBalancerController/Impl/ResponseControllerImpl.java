@@ -5,6 +5,8 @@ import com.atlan.FormLoadBalanceService.Models.DTO.ResponseDTO.ResponseDTOReques
 import com.atlan.FormLoadBalanceService.Models.DTO.ResponseDTO.ResponseDTOResponse;
 import com.atlan.FormLoadBalanceService.Utils.Values;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,16 +23,24 @@ public class ResponseControllerImpl implements ResponseController {
 
     @Override
     @GetMapping("/response")
-    public ResponseDTOResponse getRedirectToByQuestion(HttpServletRequest request) {
-        return restTemplate.getForObject(Values.FORM_URL + request.getRequestURI(), ResponseDTOResponse.class);
+    public ResponseEntity<ResponseDTOResponse> getRedirectToByQuestion(HttpServletRequest request) {
+        try {
+            return ResponseEntity.ok().body(restTemplate.getForObject(Values.FORM_URL + request.getRequestURI(), ResponseDTOResponse.class));
+        } catch (Exception e) {
+           return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
     @Override
     @PostMapping("/response")
-    public ResponseDTOResponse postRedirect(HttpServletRequest request, @RequestBody ResponseDTORequest response) {
+    public ResponseEntity<ResponseDTOResponse> postRedirect(HttpServletRequest request, @RequestBody ResponseDTORequest response) {
         if (response.getValue().equals("my name is ankit")) {
             restTemplate.getForObject(Values.SMS_URL, void.class);
         }
-        return restTemplate.postForObject(Values.FORM_URL + request.getRequestURI(), response, ResponseDTOResponse.class);
+        try {
+            return ResponseEntity.ok().body(restTemplate.postForObject(Values.FORM_URL + request.getRequestURI(), response, ResponseDTOResponse.class));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 }

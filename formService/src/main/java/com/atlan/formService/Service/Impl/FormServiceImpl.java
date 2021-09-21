@@ -1,11 +1,13 @@
 package com.atlan.formService.Service.Impl;
 
+import com.atlan.formService.Models.DTO.ErrorDTO.ErrorDTORequest;
 import com.atlan.formService.Models.DTO.FormDTO.FormDTORequest;
 import com.atlan.formService.Models.DTO.FormDTO.FormDTOResponse;
 import com.atlan.formService.Repositories.FormRepository;
 import com.atlan.formService.Models.Form;
 import com.atlan.formService.Service.FormService;
 import com.atlan.formService.Service.QuestionService;
+import com.atlan.formService.Service.SendError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ public class FormServiceImpl implements FormService {
     Logger logger = LoggerFactory.getLogger(FormServiceImpl.class);
 
     @Autowired
+    private SendError error;
+
+    @Autowired
     private FormRepository formRepository;
 
     @Autowired
@@ -31,7 +36,13 @@ public class FormServiceImpl implements FormService {
 
         List<FormDTOResponse> result = new ArrayList<>();
 
-        formRepository.findAll().forEach(form -> result.add(getFormDTOResponse(form)));
+        try {
+            formRepository.findAll().forEach(form -> result.add(getFormDTOResponse(form)));
+        } catch (Exception e) {
+            error.SendError(new ErrorDTORequest(e.getMessage(), FormServiceImpl.class.getName()));
+            return null;
+        }
+
         return result;
     }
 
@@ -39,11 +50,11 @@ public class FormServiceImpl implements FormService {
     public FormDTOResponse get(Integer id) {
         try {
             Form form = formRepository.getById(id);
-
             return getFormDTOResponse(form);
         } catch (Exception e) {
+            error.SendError(new ErrorDTORequest(e.getMessage(), FormServiceImpl.class.getName()));
             logger.info("Form not found");
-             return null;
+            return null;
         }
     }
 
@@ -56,6 +67,7 @@ public class FormServiceImpl implements FormService {
             form = formRepository.save(form);
             return getFormDTOResponse(form);
         } catch (Exception e) {
+            error.SendError(new ErrorDTORequest(e.getMessage(), FormServiceImpl.class.getName()));
             return null;
         }
     }
