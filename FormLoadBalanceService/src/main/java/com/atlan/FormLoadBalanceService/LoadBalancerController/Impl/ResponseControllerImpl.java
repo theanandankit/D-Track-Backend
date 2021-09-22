@@ -34,7 +34,7 @@ public class ResponseControllerImpl implements ResponseController {
     @Override
     @PostMapping("/response")
     public ResponseEntity<ResponseDTOResponse> postRedirect(HttpServletRequest request, @RequestBody ResponseDTORequest response) {
-        if (response.getValue().equals("my name is ankit")) {
+        if (response.getValue().equals("atlan")) {
             restTemplate.getForObject(Values.SMS_URL, void.class);
         }
         try {

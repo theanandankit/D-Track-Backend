@@ -12,10 +12,12 @@ public class UserServiceImpl implements UserService{
     private UserRepository userRepository;
 
     @Override
-    public Integer getUserContact(Integer id) {
+    public String getUserContact(Integer id) {
 
-        User user = userRepository.getById(id);
-        return Integer.parseInt(user.getContactNo());
+//        User user = userRepository.getById(id);
+//        return String.valueOf(Integer.parseInt(user.getContactNo()));
+
+        return "+919024923695";
 
     }
 }

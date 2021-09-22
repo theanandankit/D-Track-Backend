@@ -2,6 +2,6 @@ package com.atlan.SMSService.Service;
 
 public interface UserService {
 
-    Integer getUserContact(Integer id);
+    String getUserContact(Integer id);
 
 }
