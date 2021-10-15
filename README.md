@@ -1,21 +1,20 @@
 D-Track
 ============
-D-Track is a backed project, where user can create a test and record the responces. This project mainly focused on maintaning the responces send by the end user. This project would help us in understanding how microservices work in the Spring framewoek. 
-
+D-Track is a backed project, where user can create a test and record the responces. The project primarily focused on maintaining the responses sent by the end user. This project will help us to understand how microservices work in Spring Framework.
 Feature
 -----------
-* CURD opertion Support for Data Exchanges. 
+* CURD operation support for Data Exchanges. 
 * Microservice archtechture for handling different functionality.
 * Horizontal scaling for Handling the bulk request. 
 * Export the Database directly to the Google Sheet or download the complete information in CSV. 
-* Send the SMS alter to user when responce is successfully recorded. 
+* Send the SMS to the user when the response is successfully recorded. 
 * Error-handling module to record every exception. 
-* Single API gateway for every queary.
+* Single API gateway for every query.
 
 
 Technology Stack
 ---------------
-We used the Spring framework, Hibernate, eureka, MySQL for this project. In addition to the liberaries, we used Lombok where feasible to avoid having to write so much repetitive code. 
+We used the Spring framework, Hibernate, eureka, MySQL for this project. In addition to the libraries, we used Lombok where feasible to avoid having to write so much repetitive code. 
 
 Microservices
 --------------
